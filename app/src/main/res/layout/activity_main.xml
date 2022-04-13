@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/btn_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Scan"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_scanned_URL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_scan"
+        app:layout_constraintStart_toStartOf="@+id/btn_scan"
+        app:layout_constraintTop_toBottomOf="@+id/btn_scan" />
+
+    <ImageView
+        android:id="@+id/img_generate_qr"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_scanned_URL"
+        app:layout_constraintStart_toStartOf="@+id/tv_scanned_URL"
+        app:layout_constraintTop_toBottomOf="@+id/tv_scanned_URL"
+        app:srcCompat="@drawable/ic_qrcode" />
+
+    <EditText
+        android:id="@+id/et_qr_code_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Enter your QR code"
+        android:minHeight="48dp"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@+id/btn_scan"
+        app:layout_constraintStart_toStartOf="@+id/btn_scan"
+        app:layout_constraintTop_toBottomOf="@+id/img_generate_qr" />
+
+    <Button
+        android:id="@+id/btn_generate_qr_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate QR code"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/btn_scan"
+        app:layout_constraintStart_toStartOf="@+id/btn_scan"
+        app:layout_constraintTop_toBottomOf="@+id/et_qr_code_text" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_demo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#80FFFFFF"
+        app:civ_border_overlay= "false"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_select_image"
+        app:layout_constraintEnd_toStartOf="@+id/btn_select_image"
+        app:layout_constraintStart_toStartOf="@+id/btn_generate_qr_code"
+        app:layout_constraintTop_toBottomOf="@+id/btn_generate_qr_code"/>
+
+
+    <Button
+        android:id="@+id/btn_select_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select image"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/btn_generate_qr_code"
+        app:layout_constraintTop_toBottomOf="@+id/btn_generate_qr_code" />
+
+    <Button
+        android:id="@+id/btn_save_image"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save QR Code"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/btn_generate_qr_code"
+        app:layout_constraintStart_toStartOf="@+id/btn_generate_qr_code"
+        app:layout_constraintTop_toBottomOf="@+id/btn_select_image" />
+</androidx.constraintlayout.widget.ConstraintLayout>
