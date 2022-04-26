@@ -1,20 +1,21 @@
 package com.laurentdarl.scanandgenerateqrcodeswithimages
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.content.pm.PackageManager
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
+import android.os.Handler
+import android.os.Looper
 import android.util.SparseArray
 import android.view.SurfaceHolder
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.laurentdarl.scanandgenerateqrcodeswithimages.databinding.ActivityScanningBinding
 import java.io.IOException
 
@@ -23,6 +24,7 @@ class ScanningActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanningBinding
     private lateinit var cameraSource: CameraSource
     private lateinit var barCodeDetector: BarcodeDetector
+    private val mDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,7 @@ class ScanningActivity : AppCompatActivity() {
             .build()
         cameraSource = CameraSource.Builder(applicationContext, barCodeDetector)
             .setRequestedPreviewSize(640, 480)
+            .setAutoFocusEnabled(true)
             .build()
         binding.svScanQr.holder!!.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
@@ -65,53 +68,24 @@ class ScanningActivity : AppCompatActivity() {
             override fun receiveDetections(detections: Detector.Detections<Barcode>) {
                 val qrCodes = detections.detectedItems
                 if (qrCodes.size() != 0) {
-                    binding.tvScanTextResult.post(Runnable
-                    // Use the post method of the TextView
-                    {
-                        val qrC = toString(qrCodes)
-                        if (qrC.contains("https://") || qrC.contains("http://")) {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(qrC)
-                            )
-                            startActivity(intent)
-                            dialogBox(qrCodes.valueAt(0).displayValue.toString(), intent)
-                        } else {
-                            binding.tvScanTextResult.text =
-                                qrCodes.valueAt(0).displayValue.toString()
-                        }
-                    })
+
+                    val qrC = qrCodes.valueAt(0).displayValue.toString()
+
+                    val handler = Handler(Looper.getMainLooper())
+                    handler.postDelayed({
+                        // Run your task here
+                        dialog(qrC)
+                    }, 1000)
+                    mDialog
+
+//                        Timer().schedule(3000) {
+//                        }
+
+
+                    binding.tvScanTextResult.text = qrC
                 }
             }
         })
-
-        binding.tvScanTextResult.setOnClickListener {
-            if (TextUtils.isEmpty(binding.tvScanTextResult.toString())
-                && binding.tvScanTextResult.toString()
-                    .contains("https://") || binding.tvScanTextResult.toString().contains("http://")
-            ) {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(binding.tvScanTextResult.toString())
-                )
-                startActivity(intent)
-            }
-        }
-    }
-
-    private fun dialogBox(message: String, intent: Intent) {
-        val builder = MaterialAlertDialogBuilder(applicationContext)
-        builder.apply {
-            setTitle("QR scan result!")
-            setMessage("Visit: $message now")
-            setPositiveButton("Allow") { _, _ ->
-                // do something when positive button clicked
-            }
-            setPositiveButtonIcon(getDrawable(R.drawable.ic_camera))
-            setCancelable(true)
-        }
-        val dialog = builder.create()
-        dialog.show()
     }
 
     fun toString(pSparseArray: SparseArray<*>): String {
@@ -127,6 +101,34 @@ class ScanningActivity : AppCompatActivity() {
         }
         stringBuilder.append("}")
         return stringBuilder.toString()
+    }
+
+    private fun dialog(message: String) {
+
+        if (mDialog == null || mDialog.isShowing) {
+            val builder = AlertDialog.Builder(this)
+            // dialog title
+            builder.apply {
+                setTitle("QR Code Result")
+                setIcon(R.drawable.ic_notifications)
+                setMessage(message)
+                setPositiveButton("Visit") { _, _ ->
+                    // do something on positive button click
+                    if (message.contains("https://") || message.contains("http://")) {
+                        val intent = Intent(
+                            this@ScanningActivity,
+                            WebView::class.java
+                        )
+                        intent.putExtra("Message", message)
+                        intent.addFlags(FLAG_ACTIVITY_SINGLE_TOP)
+                        startActivity(intent)
+                    }
+                }
+            }
+            // finally, create the alert dialog and show it
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
     override fun onDestroy() {

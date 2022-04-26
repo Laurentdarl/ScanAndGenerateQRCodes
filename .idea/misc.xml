@@ -3,9 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/border.xml" value="0.178" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/gradient.xml" value="0.178" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/gradient1.xml" value="0.178" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/gradient2.xml" value="0.178" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/gradient3.xml" value="0.178" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/gradient_list.xml" value="0.178" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/ic_camera.xml" value="0.178" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/drawable/ic_qrcode.xml" value="0.178" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/layout/activity_scanning.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/ScanAndGenerateQrCodesWithImages/app/src/main/res/layout/activity_web_view.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

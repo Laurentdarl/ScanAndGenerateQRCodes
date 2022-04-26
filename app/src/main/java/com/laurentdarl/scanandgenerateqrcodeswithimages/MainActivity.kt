@@ -3,17 +3,22 @@ package com.laurentdarl.scanandgenerateqrcodeswithimages
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.transition.Visibility
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -58,6 +63,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+//        prevent the app from being switched to night/dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        Hide status bar and get a full screen
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        val animationDrawable = binding.mainActivityXml.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(1500)
+        animationDrawable.setExitFadeDuration(3000)
+        animationDrawable.start()
 
         val cameraPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { permissionGranted ->
@@ -112,15 +126,13 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Please select an image", Toast.LENGTH_SHORT)
                     .show()
             }
-
             binding.etQrCodeText.text = null
-            binding.imgDemo.apply {
-                setImageDrawable(null)
-            }
+            binding.imgDemo.isVisible = false
         }
 
         binding.btnSelectImage.setOnClickListener {
             getImage.launch("image/*")
+            binding.imgDemo.isVisible = true
         }
 
         binding.btnSaveImage.setOnClickListener {
